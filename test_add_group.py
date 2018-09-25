@@ -2,6 +2,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 import unittest
+from group import Group
 
 
 class AddGroupTest(unittest.TestCase):
@@ -12,9 +13,9 @@ class AddGroupTest(unittest.TestCase):
     def test_add_group(self):
         wd = self.wd
         self.open_login_page(wd)
-        self.login(wd)
+        self.login(wd, "admin", "secret")
         self.open_groups_page(wd)
-        self.create_group(wd)
+        self.create_group(wd, "second", "sdgfdsgt", "dsfgdfg")
         self.return_to_group_page(wd)
         self.logout(wd)
 
@@ -24,31 +25,31 @@ class AddGroupTest(unittest.TestCase):
     def return_to_group_page(self, wd):
         wd.find_element_by_link_text("group page").click()
 
-    def create_group(self, wd):
+    def create_group(self, wd, group_name, header, footer):
         # init group creation
         wd.find_element_by_name("new").click()
         #  fill in group form
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys("second")
+        wd.find_element_by_name("group_name").send_keys("%s" % group_name)
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys("sdgfdsgt")
+        wd.find_element_by_name("group_header").send_keys("%s" % header)
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys("dsfgdfg")
+        wd.find_element_by_name("group_footer").send_keys("%s" % footer)
         # submit group creation
         wd.find_element_by_name("submit").click()
 
     def open_groups_page(self, wd):
         wd.find_element_by_link_text("groups").click()
 
-    def login(self, wd):
+    def login(self, wd, username, password):
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("user").send_keys("%s" % username)
         wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_name("pass").send_keys("%s" % password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def open_login_page(self, wd):
