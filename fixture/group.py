@@ -1,9 +1,10 @@
 class GroupHelper:
-    def __init__(self, app):
+    def __init__(self, helper, app):
+        self.helper = helper
         self.app = app
 
     def create(self, group):
-        wd = self.app.wd
+        wd = self.helper.app.wd
         self.open_groups_page()
         # init group creation
         wd.find_element_by_name("new").click()
@@ -21,7 +22,7 @@ class GroupHelper:
         wd.find_element_by_name("submit").click()
 
     def open_groups_page(self):
-        wd = self.app.wd
+        wd = self.helper.app.wd
         wd.find_element_by_link_text("groups").click()
 
 

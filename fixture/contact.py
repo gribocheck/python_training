@@ -2,7 +2,8 @@ from selenium.webdriver.support.select import Select
 
 
 class ContactHelper:
-    def __init__(self, app):
+    def __init__(self, helper, app):
+        self.helper = helper
         self.app = app
 
     def add(self, contact, date, date2):
@@ -12,11 +13,11 @@ class ContactHelper:
         self.submit_contact()
 
     def submit_contact(self):
-        wd = self.app.wd
+        wd = self.helper.app.wd
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
     def fill_primary_data_inputs(self, contact, date, date2):
-        wd = self.app.wd
+        wd = self.helper.app.wd
         # fill firstname input
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -106,7 +107,7 @@ class ContactHelper:
         wd.find_element_by_name("notes").send_keys(contact.secondary_notes)
 
     def pick_a_date(self, date):
-        wd = self.app.wd
+        wd = self.helper.app.wd
         wd.find_element_by_name("aday").click()
         Select(wd.find_element_by_name("aday")).select_by_visible_text(date.date)
         wd.find_element_by_name("aday").click()
@@ -118,7 +119,7 @@ class ContactHelper:
         wd.find_element_by_name("ayear").send_keys(date.year)
 
     def pick_b_date(self, date):
-        wd = self.app.wd
+        wd = self.helper.app.wd
         wd.find_element_by_name("bday").click()
         Select(wd.find_element_by_name("bday")).select_by_visible_text(date.date)
         wd.find_element_by_name("bday").click()
@@ -130,5 +131,5 @@ class ContactHelper:
         wd.find_element_by_name("byear").send_keys(date.year)
 
     def init_contact_creation(self):
-        wd = self.app.wd
+        wd = self.helper.app.wd
         wd.find_element_by_link_text("add new").click()

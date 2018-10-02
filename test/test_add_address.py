@@ -13,16 +13,16 @@ def app(request):
 
 
 def test_add_address(app):
-    app.session.login("admin", "secret")
-    app.contact.add(
+    app.helper.session.login("admin", "secret")
+    app.helper.contact.add(
         Contact("test", "test", "test", "test", "test", "test", "test", "test", "test", "test",
                 "test", "test", "test", "test", "test", "test", "test", "test"),
         Date("2", "January", "1999"), Date("2", "January", "2018"))
-    app.session.logout()
+    app.helper.session.logout()
 
 
 def test_add_address_empty(app):
-    app.session.login("admin", "secret")
-    app.contact.add(Contact("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+    app.helper.session.login("admin", "secret")
+    app.helper.contact.add(Contact("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
                     Date("", "-", ""), Date("", "-", ""))
-    app.session.logout()
+    app.helper.session.logout()
