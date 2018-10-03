@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 from model.contact import Contact
-from date import Date
+from model.date import Date
 from fixture.application import Application
 
 
@@ -13,16 +13,16 @@ def app(request):
 
 
 def test_add_address(app):
-    app.helper.session.login("admin", "secret")
-    app.helper.contact.add(
+    app.session.login("admin", "secret")
+    app.contact.add(
         Contact("test", "test", "test", "test", "test", "test", "test", "test", "test", "test",
                 "test", "test", "test", "test", "test", "test", "test", "test"),
         Date("2", "January", "1999"), Date("2", "January", "2018"))
-    app.helper.session.logout()
+    app.session.logout()
 
 
 def test_add_address_empty(app):
-    app.helper.session.login("admin", "secret")
-    app.helper.contact.add(Contact("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+    app.session.login("admin", "secret")
+    app.contact.add(Contact("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
                     Date("", "-", ""), Date("", "-", ""))
-    app.helper.session.logout()
+    app.session.logout()
