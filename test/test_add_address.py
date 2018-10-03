@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 from model.contact import Contact
-from model.date import Date
+from date import Date
 from fixture.application import Application
 
 
