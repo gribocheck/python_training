@@ -86,9 +86,11 @@ class ContactHelper:
         # add dates
         self.pick_b_date(date)
         self.pick_a_date(date2)
+
         # wd.find_element_by_name("new_group").click()
         # Select(wd.find_element_by_name("new_group")).select_by_visible_text("first")
         # wd.find_element_by_name("new_group").click()
+
         # fill address input
         wd.find_element_by_name("address2").click()
         wd.find_element_by_name("address2").clear()
