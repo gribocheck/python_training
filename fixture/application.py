@@ -15,7 +15,7 @@ class Application:
 
     def open_main_page(self):
         wd = self.wd
-        wd.get("http://localhost/addressbook/group.php")
+        wd.find_element_by_link_text("home").click()
 
     def destroy(self):
         wd = self.wd
