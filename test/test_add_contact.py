@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
-from model.date import Date
-
 
 def test_add_contact(app):
     app.session.login("admin", "secret")
     app.contact.add(
         Contact("test", "test", "test", "test", "test", "test", "test", "test", "test", "test",
-                "test", "test", "test", "test", "test", "test", "test", "test"),
-        Date("2", "January", "1999"), Date("2", "January", "2018"))
+                "test", "test", "test", "test", "test", "test", "test", "test",
+                "2", "January", "1999", "2", "January", "2018")),
     app.session.logout()
 
 
 def test_add_contact_empty(app):
     app.session.login("admin", "secret")
-    app.contact.add(Contact("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""),
-                    Date("", "-", ""), Date("", "-", ""))
+    app.contact.add(Contact("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+                    "", "-", "", "", "-", ""))
     app.session.logout()
