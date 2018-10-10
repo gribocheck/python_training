@@ -10,16 +10,9 @@ class ContactHelper:
         self.fill_primary_data_inputs(contact)
         self.submit_contact()
 
-    def submit_contact(self):
-        wd = self.app.wd
-        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
-
     def fill_primary_data_inputs(self, contact):
-        # fill firstname input
         self.fill_input("firstname", contact.name)
-        # fill middle name input
         self.fill_input("middlename", contact.middle_name)
-        # fill lastname input
         self.fill_input("lastname", contact.lastname)
         # fill nickname input
         self.fill_input("nickname", contact.nickname)
@@ -53,8 +46,8 @@ class ContactHelper:
         # fill homepage input
         self.fill_input("homepage", contact.homepage)
         # add dates
-        self.pick_b_date(contact)
-        self.pick_a_date(contact)
+        # self.pick_b_date(contact)
+        # self.pick_a_date(contact)
 
         # wd.find_element_by_name("new_group").click()
         # Select(wd.find_element_by_name("new_group")).select_by_visible_text("first")
@@ -67,23 +60,27 @@ class ContactHelper:
         # fill notes input
         self.fill_input("notes", contact.secondary_notes)
 
-    def fill_input(self, input_name, input_value):
-        if input_value is not None:
-            wd = self.app.wd
+    def fill_input(self, input_name, value):
+        wd = self.app.wd
+        if value is not None:
             wd.find_element_by_name(input_name).click()
             wd.find_element_by_name(input_name).clear()
-            wd.find_element_by_name(input_name).send_keys(input_value)
+            wd.find_element_by_name(input_name).send_keys(value)
+
+    def submit_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
     def pick_a_date(self, contact):
         self.fill_date_input("aday", contact.date2)
         self.fill_date_input("amonth", contact.month2)
         self.fill_input("ayear", contact.year2)
 
-    def fill_date_input(self, input_name, input_value):
-        if input_value is not None:
+    def fill_date_input(self, input_name, value):
+        if value is not None:
             wd = self.app.wd
             wd.find_element_by_name(input_name).click()
-            Select(wd.find_element_by_name(input_name)).select_by_visible_text(input_value)
+            Select(wd.find_element_by_name(input_name)).select_by_visible_text(value)
             wd.find_element_by_name(input_name).click()
 
     def pick_b_date(self, contact):
@@ -110,3 +107,8 @@ class ContactHelper:
         wd.find_element_by_xpath("//img[@title='Edit']").click()
         self.fill_primary_data_inputs(contact)
         wd.find_element_by_name("update").click()
+
+    def count_contacts(self):
+        wd = self.app.wd
+        self.app.open_main_page()
+        return len(wd.find_elements_by_name("selected[]"))
