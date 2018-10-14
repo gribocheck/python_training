@@ -7,7 +7,6 @@ from fixture.session import SessionHelper
 class Application:
     def __init__(self):
         self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(5)
         self.wd.get("http://localhost/addressbook/group.php")
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
@@ -15,7 +14,8 @@ class Application:
 
     def open_main_page(self):
         wd = self.wd
-        wd.find_element_by_link_text("home").click()
+        if not wd.current_url.endswith("/addressbook/"):
+            wd.find_element_by_link_text("home").click()
 
     def destroy(self):
         wd = self.wd

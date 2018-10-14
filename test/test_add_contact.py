@@ -7,6 +7,7 @@ def test_add_contact(app):
         Contact("test", "test", "test", "test", "test", "test", "test", "test", "test", "test",
                 "test", "test", "test", "test", "test", "test", "test", "test",
                 "2", "January", "1999", "2", "January", "2018"))
+    app.session.logout()
 
 
 def test_add_contact_empty(app):
