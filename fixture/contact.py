@@ -112,9 +112,8 @@ class ContactHelper:
     def modify_any(self, contact, index):
         wd = self.app.wd
         self.app.open_main_page()
-        wd.find_elements_by_name("selected[]")[index].click()
-        # click edit
-        wd.find_element_by_xpath("//img[@title='Edit']").click()
+        # click edit icon
+        wd.find_elements_by_xpath("//img[@title='Edit']")[index].click()
         self.fill_primary_data_inputs(contact)
         wd.find_element_by_name("update").click()
         self.contacts_cache = None
