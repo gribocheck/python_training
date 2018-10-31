@@ -1,7 +1,10 @@
+from random import random
+
 from selenium.webdriver.support.select import Select
 
 from model.contact import Contact
 import re
+from random import randrange
 
 
 class ContactHelper:
@@ -137,10 +140,12 @@ class ContactHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 last_name = cells[1].text
                 name = cells[2].text
-                phones = cells[5].text.splitlines()
+                address = cells[3].text
+                emails = cells[4].text
+                phones = cells[5].text
                 self.contacts_cache.append(Contact(name=name, lastname=last_name, id=id,
-                                                   home_phone=phones[0], work_phone=phones[2],
-                                                   mobile_phone=phones[1], secondary_home=phones[3]))
+                                                   address=address, all_emails=emails,
+                                                   all_phones=phones))
         return list(self.contacts_cache)
 
     def open_contact_to_edit_by_index(self, index):
@@ -163,13 +168,17 @@ class ContactHelper:
         id = wd.find_element_by_name("id").get_attribute("value")
         firstname = wd.find_element_by_name("firstname").get_attribute("value")
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
         home_phone = wd.find_element_by_name("home").get_attribute("value")
         work_phone = wd.find_element_by_name("work").get_attribute("value")
         mobile_phone = wd.find_element_by_name("mobile").get_attribute("value")
         secondary_phone = wd.find_element_by_name("phone2").get_attribute("value")
+        email1 = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
         return Contact(name=firstname, lastname=lastname, id=id,
-                       home_phone=home_phone, work_phone=work_phone, mobile_phone=mobile_phone,
-                       secondary_home=secondary_phone)
+                       address=address, home_phone=home_phone, work_phone=work_phone, mobile_phone=mobile_phone,
+                       email_1=email1, email_2=email2, email_3=email3, secondary_home=secondary_phone)
 
     def get_contact_from_view_page(self, index):
         wd = self.app.wd
@@ -181,6 +190,26 @@ class ContactHelper:
         secondary_phone = re.search("P: (.*)", content).group(1)
         return Contact(home_phone=home_phone, work_phone=work_phone, mobile_phone=mobile_phone,
                        secondary_home=secondary_phone)
+
+    def get_random_contact_index(self, list_of_contacts):
+        random_index = randrange(len(list_of_contacts))
+        return random_index
+
+    def merge_edit_phones_as_on_main(self, contact):
+        return "\n".join(filter(lambda x: x != "",
+                                map(lambda x: self.clear(x),
+                                    filter(lambda x: x is not None,
+                                           [contact.home_phone, contact.work_phone, contact.mobile_phone,
+                                            contact.secondary_home]))))
+
+    def merge_edit_emails_as_on_main(self, contact):
+        return "\n".join(filter(lambda x: x != "",
+                                map(lambda x: self.clear(x),
+                                    filter(lambda x: x is not None,
+                                           [contact.email_1, contact.email_2, contact.email_3]))))
+
+    def clear(self, str):
+        return re.sub("[() -]", "", str)
 
 
 
