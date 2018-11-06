@@ -9,13 +9,17 @@ fixture = None
 # @pytest.fixture()
 def app(request):
     global fixture
+    browser = request.config.getoption("--browser")
+    base_url = request.config.getoption("--baseurl")
+    username = request.config.getoption("--username")
+    password = request.config.getoption("--password")
     if fixture is None:
-        fixture = Application()
-        fixture.session.login("admin", "secret")
+        fixture = Application(browser=browser, base_url=base_url, username=username, password=password)
+        fixture.session.login(username, password)
     else:
         if not fixture.is_valid():
-            fixture = Application()
-            fixture.session.login("admin", "secret")
+            fixture = Application(browser=browser, base_url=base_url, username=username, password=password)
+            fixture.session.login(username, password)
 
     return fixture
 
@@ -29,3 +33,10 @@ def stop(request):
 
     request.addfinalizer(fin)
     return fixture
+
+
+def pytest_addoption(parser):
+    parser.addoption("--browser", action="store", default="firefox")
+    parser.addoption("--baseurl", action='store', default="http://localhost/addressbook/group.php")
+    parser.addoption("--username", action='store', default="admin")
+    parser.addoption("--password", action='store', default="secret")

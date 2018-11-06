@@ -5,12 +5,22 @@ from fixture.session import SessionHelper
 
 
 class Application:
-    def __init__(self):
-        self.wd = webdriver.Firefox()
-        self.wd.get("http://localhost/addressbook/group.php")
+    def __init__(self, browser, base_url, username, password):
+        if browser == "firefox":
+            self.wd = webdriver.Firefox()
+        elif browser == "chrome":
+            self.wd = webdriver.Chrome()
+        elif browser == "ie":
+            self.wd = webdriver.Ie()
+        else:
+            raise ValueError("Unrecognized browser %s" % browser)
+        self.wd.get(base_url)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
+        self.base_url = base_url
+        self.username = username
+        self.password = password
 
     def open_main_page(self):
         wd = self.wd
