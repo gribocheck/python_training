@@ -28,8 +28,9 @@ def random_data(prefix, maxlen):
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-test_data = [Contact(name="", lastname="")] + \
-            [Contact(name=random_data("name", 10), lastname=random_data("lastname", 20))
+test_data = [Contact(name="", middle_name="", lastname="", nickname="", home_phone="", mobile_phone="", work_phone="")] + \
+            [Contact(name=random_data("name", 10), lastname=random_data("lastname", 20), home_phone=random_data("+", 7),
+                     work_phone=random_data("+", 7), email_1=random_data("mail-1", 7), email_2=random_data("mail-1", 7))
              for i in range(n)]
 
 file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f)
